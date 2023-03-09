@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\js"
+  ],
+  "SelectedNode": "\\src\\js\\collect_data.js",
+  "PreviewInSolutionExplorer": false,
+  "OutputFoldersPerTargetSystem": {
+    "Ordinateur local": [
+      "out\\build\\x64-Debug",
+      "out\\install\\x64-Debug"
+    ]
+  }
+}
