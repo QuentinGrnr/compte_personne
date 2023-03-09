@@ -2,5 +2,6 @@
   "name": "compte_personne",
   "version": "1.0.0",
   "dependencies": {
+    "bluetooth-serial-port": "^3.0.2"
   }
 }

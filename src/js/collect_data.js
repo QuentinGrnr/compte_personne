@@ -19,5 +19,8 @@ btSerial.connect(address, 1, function() {
     console.log('Failed to connect to Arduino Bluetooth.');
 });
 
+
+
 // Ferme la connexion Bluetooth
 btSerial.close();
+
