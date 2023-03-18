@@ -1,5 +1,5 @@
 Port = COM4
-BaudRate = 9600
+BaudRate = 38400
 DataBits = 8
 Parity = N
 StopBits = 1
@@ -14,7 +14,7 @@ ViewerMode = Hex
 WrapPlainText = true
 TerminalMode = Line
 SaveTXHistory = true
-TXHistory = AT	dqzdadaz	AT	AT+ADDR?	at+role?	AT+PSWD?	AT+NAME	AT	df	dfg	AT
+TXHistory = AT+ADDR?	AT	AT+UART=9600,1,0	at+name?	AT	AT+name?	AT	dqzdadaz	AT	AT+ADDR?	at+role?	AT+PSWD?	AT+NAME	AT	df	dfg	AT
 EnterKeyEmulation = CRLF
 EnterKeyEmulationCustomSequence = 00 1B
 EmulateSpecialKeys = false
@@ -112,4 +112,4 @@ ChartXDataColumn = 1
 ChartTimeReference = ElapsedTime
 ChartXAxisScaleRatio = 1
 KeepOnTop = false
-WindowPosition = 961,115,958,924
+WindowPosition = 1,115,958,222
