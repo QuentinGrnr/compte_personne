@@ -1,11 +1,8 @@
 const sqlite3 = require('sqlite3')
-const fetch = require('node-fetch');
-const { text } = require('express');
 const btSerial = new (require('bluetooth-serial-port')).BluetoothSerialPort();
 
 
 let db = new sqlite3.Database('nbr_personnes.sqlite', err => {
-  console.log(err)
     if (err) throw err
     console.log('data base "nbr_personnes.sqlite" bien active')
   })
@@ -22,7 +19,7 @@ async function add_salle_api(salle,adrs_mac){
     }
     if(validator==0){ //si le validateur est à 0 on ajoute la salle
       db.run('INSERT INTO salle_api(salle,adrs_mac) VALUES(?,?)', [salle,adrs_mac]); // on ajoute la salle dans la table
-      db.run('CREATE TABLE ' + salle + '_nbr_personnes(id INTEGER PRIMARY KEY AUTOINCREMENT,hour VARCHAR, nbr_personnes BLOB)') // on crée la table pour les données de la salle
+      db.run('CREATE TABLE ' + salle + '_nbr_personnes(id INTEGER PRIMARY KEY AUTOINCREMENT,hour VARCHAR, nbr_personnes INTEGER)') // on crée la table pour les données de la salle
       db.all('SELECT * FROM salle_api', async (err, data) => {
       })
     }
@@ -32,11 +29,12 @@ async function add_salle_api(salle,adrs_mac){
   })
 }
 
-add_salle_api("C0-21")// on ajoute la salle C0-21
+add_salle_api("C0_21","jhdhvjsd")// on ajoute la salle C0-21
+add_salle_api("C0_28","jhdhvjsd")// on ajoute la salle C0-21
 
 async function getdata_salle(){ // fonction qui récupère les données des salles
   let minute = new Date().getMinutes();// on récupère les minutes
-if (minute % 5 === 0) {// si les minutes sont un multiple de 5 alors on effectue le programme => on récupère les données toutes les 5 minutes
+if (minute % 1 === 0) {// si les minutes sont un multiple de 5 alors on effectue le programme => on récupère les données toutes les 5 minutes
   db.all('SELECT * FROM salle_api', async (err, data) => { // on récupère les données de la table => les salles
     for (let i = 0; i < data.length; i++) { // on parcourt les salles
       await add_nbr_data(data[i].salle,data[i].adrs_mac) // on récupère les données de la salle grace a son nom et l'adresse mac du module bluetooh du compte personne
@@ -44,28 +42,35 @@ if (minute % 5 === 0) {// si les minutes sont un multiple de 5 alors on effectue
   })
   setInterval(() => {
     db.all('SELECT * FROM salle_api', async (err, data) => {
-      for (let i = 0; i < data.length; i++) {
-        await add_nbr_data(data[i].salle,data[i].adrs_mac)
+      if (data.length !== 0){
+        for (let i = 0; i < data.length; i++) {
+          await add_nbr_data(data[i].salle,data[i].adrs_mac)
+        }
       }
     })
-  }, 300000);
+  }, 10000);
 } else {
-  setTimeout(getdata_salle,30000)
+  setTimeout(getdata_salle,10000)
 }
 }
 
 
 async function add_nbr_data(salle, adrs_mac) { // fonction qui récupère les données de la salle en bluetooth
-                                               // Adresse MAC de l'Arduino Bluetooth
-  const address = '20:13:08:28:12:42'; // AT+ADDR? => 2013:8:281242 => adresse mac du module bluetooth du compte personne
+  db.run('INSERT INTO ' + salle + '_nbr_personnes(hour,nbr_personnes) VALUES(?,?)', [getDateFormatted(), 10]); // on ajoute les données dans la table de la salle (si cela ne marche pas, rajouter un await devant getDateFormatted())
+  db.all('SELECT * FROM ' + salle + '_nbr_personnes', (err, data) => { // on récupère les données de la table de la salle
+    console.log(data) //et on les affiche
+    if (err)
+      throw err
+  })
+  /*const address = '20:13:08:28:12:42'; // AT+ADDR? => 2013:8:281242 => adresse mac du module bluetooth du compte personne
   // UUID du service Bluetooth
   const uuid = '0000ffe0-0000-1000-8000-00805f9b34fb'; //celon chat gpt => uuid du module bluetooth du compte personne (a vérif)
   btSerial.connect(address, 1, function () { // on se connecte au module bluetooth du compte personne
     console.log('connection a l\'arduino bluetooth de la salle ' + salle + " ( avec l'adresse mac " + adrs_mac + " ) établie");
 
     btSerial.on('data', function (buffer) { // on récupère les données envoyées par le module bluetooth de l'arduino
-      const nbr_personnes = buffer.readUInt8(0); //nbr_personnes est le nombre de personnes dans la salle envoyé par le module bluetooth de l'arduino
-      db.run('INSERT INTO ' + salle + '_nbr_personnes(hour,nbr_personnes) VALUES(?,?)', [getDateFormatted(), nbr_personnes]); // on ajoute les données dans la table de la salle (si cela ne marche pas, rajouter un await devant getDateFormatted())
+      const nbr_personnes = 10//buffer.readUInt8(0); //nbr_personnes est le nombre de personnes dans la salle envoyé par le module bluetooth de l'arduino
+      db.run('INSERT INTO ' + salle + '_nbr_personnes(hour,nbr_personnes) VALUES(?,?)', ["25", 10]); // on ajoute les données dans la table de la salle (si cela ne marche pas, rajouter un await devant getDateFormatted())
       db.all('SELECT * FROM ' + salle + '_nbr_personnes', (err, data) => { // on récupère les données de la table de la salle
         console.log(data) //et on les affiche
         if (err)
@@ -76,7 +81,7 @@ async function add_nbr_data(salle, adrs_mac) { // fonction qui récupère les do
   }, function () {
     console.log('connection impossible a l\'arduino bluetooth de la salle ' + salle + " ( avec l'adresse mac " + adrs_mac + " )"); // si la connection n'est pas établie on affiche un message
     return 0
-  });
+  });*/
 }
 
 function getDateFormatted() {

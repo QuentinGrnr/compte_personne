@@ -14,10 +14,10 @@ async function set_api(){
   app.get(`https://pedago.univ-avignon.fr/~uapv2305333/compte_personnes/stats`,async (req,res) =>{
     db.all('SELECT * FROM salle_api', async (err, data) => {
       validator = 0
-      for (let i = 0; i < data.length; i++) { //je ne comprend rien ici ?
+      for (let i = 0; i < data.length; i++) {
         if (data[i].name === req.params.name) {
           validator = 1
-          db.all('SELECT * FROM ' + req.params.name + '_players_online', (err, dataa) => {
+          db.all('SELECT * FROM ' + req.params.name + '_players_online', (err, data) => {
             res.json({
               name: req.params.name,
               ip: data[i].ip,
