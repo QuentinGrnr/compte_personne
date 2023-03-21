@@ -1,3 +1,5 @@
+//sqliteviewer.flowsoft7.com => lire db
+
 const sqlite3 = require('sqlite3')
 const btSerial = new (require('bluetooth-serial-port')).BluetoothSerialPort();
 
