@@ -10,8 +10,8 @@ let db = new sqlite3.Database('nbr_personnes.sqlite', err => {
     console.log('data base "nbr_personnes.sqlite" bien active')
   })
 
-async function add_salle_api(salle){
-  db.run('CREATE TABLE IF NOT EXISTS salle_api(id INTEGER PRIMARY KEY AUTOINCREMENT,salle VARCHAR)') // on crée la table si elle n'existe pas
+async function add_salle_api(salle,adrs_mac){
+  db.run('CREATE TABLE IF NOT EXISTS salle_api(id INTEGER PRIMARY KEY AUTOINCREMENT,salle VARCHAR, adrs_mac VARCHAR)') // on crée la table si elle n'existe pas
   db.all('SELECT * FROM salle_api', async (err, data) => { // on récupère les données de la table
     validator = 0
     for (let i = 0; i < data.length; i++) { //on compare les données de la table avec la salle que l'on veut ajouter
@@ -21,7 +21,7 @@ async function add_salle_api(salle){
       }
     }
     if(validator==0){ //si le validateur est à 0 on ajoute la salle
-      db.run('INSERT INTO salle_api(salle,adrs_mac) VALUES(?)', [salle,adrs_mac]); // on ajoute la salle dans la table
+      db.run('INSERT INTO salle_api(salle,adrs_mac) VALUES(?,?)', [salle,adrs_mac]); // on ajoute la salle dans la table
       db.run('CREATE TABLE ' + salle + '_nbr_personnes(id INTEGER PRIMARY KEY AUTOINCREMENT,hour VARCHAR, nbr_personnes BLOB)') // on crée la table pour les données de la salle
       db.all('SELECT * FROM salle_api', async (err, data) => {
       })
@@ -45,7 +45,7 @@ if (minute % 5 === 0) {// si les minutes sont un multiple de 5 alors on effectue
   setInterval(() => {
     db.all('SELECT * FROM salle_api', async (err, data) => {
       for (let i = 0; i < data.length; i++) {
-        await add_nbr_data(data[i].salle)
+        await add_nbr_data(data[i].salle,data[i].adrs_mac)
       }
     })
   }, 300000);
@@ -68,10 +68,10 @@ async function add_nbr_data(salle, adrs_mac) { // fonction qui récupère les do
       db.run('INSERT INTO ' + salle + '_nbr_personnes(hour,nbr_personnes) VALUES(?,?)', [getDateFormatted(), nbr_personnes]); // on ajoute les données dans la table de la salle (si cela ne marche pas, rajouter un await devant getDateFormatted())
       db.all('SELECT * FROM ' + salle + '_nbr_personnes', (err, data) => { // on récupère les données de la table de la salle
         console.log(data) //et on les affiche
-        btSerial.close(); // on ferme la connection
         if (err)
           throw err
       })
+      btSerial.close(); // on ferme la connection
     });
   }, function () {
     console.log('connection impossible a l\'arduino bluetooth de la salle ' + salle + " ( avec l'adresse mac " + adrs_mac + " )"); // si la connection n'est pas établie on affiche un message
