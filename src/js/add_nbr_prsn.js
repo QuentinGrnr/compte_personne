@@ -9,8 +9,8 @@ let db = new sqlite3.Database('nbr_personnes.sqlite', err => {
     console.log('data base "nbr_personnes.sqlite" bien active')
   })
 
-async function add_salle_api(salle,adrs_mac){
-  db.run('CREATE TABLE IF NOT EXISTS salle_api(id INTEGER PRIMARY KEY AUTOINCREMENT,salle VARCHAR, adrs_mac VARCHAR)') // on crée la table si elle n'existe pas
+async function add_salle_api(salle,adrs_mac, couleur){
+  db.run('CREATE TABLE IF NOT EXISTS salle_api(id INTEGER PRIMARY KEY AUTOINCREMENT,salle VARCHAR, adrs_mac VARCHAR, couleur VARCHAR)') // on crée la table si elle n'existe pas
   db.all('SELECT * FROM salle_api', async (err, data) => { // on récupère les données de la table
     validator = 0
     for (let i = 0; i < data.length; i++) { //on compare les données de la table avec la salle que l'on veut ajouter
@@ -20,7 +20,7 @@ async function add_salle_api(salle,adrs_mac){
       }
     }
     if(validator==0){ //si le validateur est à 0 on ajoute la salle
-      db.run('INSERT INTO salle_api(salle,adrs_mac) VALUES(?,?)', [salle,adrs_mac]); // on ajoute la salle dans la table
+      db.run('INSERT INTO salle_api(salle,adrs_mac,couleur) VALUES(?,?,?)', [salle,adrs_mac,couleur]); // on ajoute la salle dans la table
       db.run('CREATE TABLE ' + salle + '_nbr_personnes(id INTEGER PRIMARY KEY AUTOINCREMENT,hour VARCHAR, nbr_personnes INTEGER)') // on crée la table pour les données de la salle
       db.all('SELECT * FROM salle_api', async (err, data) => {
       })
@@ -31,8 +31,8 @@ async function add_salle_api(salle,adrs_mac){
   })
 }
 
-add_salle_api("C0_21","jhdhvjsd")// on ajoute la salle C0-21
-add_salle_api("C0_28","jhdhvjsd")// on ajoute la salle C0-28
+add_salle_api("C0_21","uibfsubf","#4349E2")// on ajoute la salle C0-21
+add_salle_api("C0_28","buiubesdf","#3ac071")// on ajoute la salle C0-28
 
 async function getdata_salle(){ // fonction qui récupère les données des salles
   let minute = new Date().getMinutes();// on récupère les minutes so edited
@@ -57,8 +57,9 @@ if (minute % 1 === 0) {// si les minutes sont un multiple de 5 alors on effectue
 }
 
 
-async function add_nbr_data(salle, adrs_mac) { // fonction qui récupère les données de la salle en bluetooth
-  db.run('INSERT INTO ' + salle + '_nbr_personnes(hour,nbr_personnes) VALUES(?,?)', [getDateFormatted(), 10]); // on ajoute les données dans la table de la salle (si cela ne marche pas, rajouter un await devant getDateFormatted())
+async function add_nbr_data(salle, adrs_mac, couleur) { // fonction qui récupère les données de la salle en bluetooth
+  const testnbrperson = Math.floor(Math.random() * 31);
+  db.run('INSERT INTO ' + salle + '_nbr_personnes(hour,nbr_personnes) VALUES(?,?)', [getDateFormatted(), testnbrperson]); // on ajoute les données dans la table de la salle (si cela ne marche pas, rajouter un await devant getDateFormatted())
   db.all('SELECT * FROM ' + salle + '_nbr_personnes', (err, data) => { // on récupère les données de la table de la salle
     console.log(data) //et on les affiche
     if (err)

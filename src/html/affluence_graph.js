@@ -13,7 +13,8 @@ async function get_Data() {
       data = await salleinfo.json()
       result.push({
         label: salle[i].salle,
-        data: await data.data.map(row => row.nbr_personnes),
+        data: await data.stats.map(row => row.nbr_personnes),
+        borderColor: salle[i].couleur,
         tension: 0.1,
       })
     }
@@ -28,7 +29,7 @@ async function get_Hours() {
       `http://localhost:500/apiv1/nbrPersonne/C0_21`
     );
     data = await salleinfo.json()
-    return data.data.map(row => row.hour)
+    return data.stats.map(row => row.hour)
   }
   catch (error) {
     console.error(error);
@@ -44,7 +45,7 @@ async function build_chart_player_online(){
     options: {
       elements: {
         point:{
-          radius: 0
+          radius: 0,
         }
       },
       plugins: {
