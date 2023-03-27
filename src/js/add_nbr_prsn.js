@@ -32,10 +32,10 @@ async function add_salle_api(salle,adrs_mac){
 }
 
 add_salle_api("C0_21","jhdhvjsd")// on ajoute la salle C0-21
-add_salle_api("C0_28","jhdhvjsd")// on ajoute la salle C0-21
+add_salle_api("C0_28","jhdhvjsd")// on ajoute la salle C0-28
 
 async function getdata_salle(){ // fonction qui récupère les données des salles
-  let minute = new Date().getMinutes();// on récupère les minutes
+  let minute = new Date().getMinutes();// on récupère les minutes so edited
 if (minute % 1 === 0) {// si les minutes sont un multiple de 5 alors on effectue le programme => on récupère les données toutes les 5 minutes
   db.all('SELECT * FROM salle_api', async (err, data) => { // on récupère les données de la table => les salles
     for (let i = 0; i < data.length; i++) { // on parcourt les salles

@@ -11,17 +11,17 @@ let db = new sqlite3.Database('nbr_personnes.sqlite', err => {
 
 async function set_api(){
   app.use(cors())
-  app.get(`https://pedago.univ-avignon.fr/~uapv2305333/compte_personnes/stats`,async (req,res) =>{
+  app.get(`/apiv1/nbrPersonne/:salle`,async (req,res) =>{
     db.all('SELECT * FROM salle_api', async (err, data) => {
       validator = 0
       for (let i = 0; i < data.length; i++) {
         if (data[i].salle === req.params.salle) {
           validator = 1
-          db.all('SELECT * FROM ' + req.params.salle + '_players_online', (err, data) => {
+          db.all('SELECT * FROM ' + req.params.salle + '_nbr_personnes', (err, data_) => {
             res.json({
               salle: req.params.salle,
               adrs_mac: data[i].adrs_mac,
-              stats: data
+              stats: data_
             })
           })
         }
@@ -33,7 +33,7 @@ async function set_api(){
       }
     })
   })
-  app.get(`https://pedago.univ-avignon.fr/~uapv2305333/compte_personnes/salle`,async (req,res) =>{
+  app.get(`/apiv1/salle`,async (req,res) =>{
     db.all('SELECT * FROM salle_api', async (err, data) => {
       res.json({
         salle: data
@@ -41,6 +41,7 @@ async function set_api(){
     })
   })
 }
+
 set_api()
 
 app.listen(500,() => console.log('listening on port 500'))
