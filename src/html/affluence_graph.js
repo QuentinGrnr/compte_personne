@@ -14,7 +14,7 @@ async function get_Data() {
       result.push({
         label: salle[i].salle,
         data: await data.stats.map(row => row.nbr_personnes),
-        borderColor: salle[i].couleur,
+        backgroundColor : salle[i].couleur,
         tension: 0.1,
       })
     }
@@ -41,7 +41,7 @@ async function build_chart_player_online(){
   const data = await get_Data()
   const players = await document.getElementById("hours_affluence");
   const nbr_personne_Chart = await new Chart(players,{
-    type:"line",
+    type:"bar",
     options: {
       elements: {
         point:{
