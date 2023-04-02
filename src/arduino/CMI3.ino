@@ -1,7 +1,7 @@
 #include "grove_two_rgb_led_matrix.h"
 
 
-// Déclaration des pins utilisés 
+// Déclaration des pins utilisés
 const byte BP1=2;
 const byte BP2=3;
 const byte Led1=7;
@@ -73,7 +73,7 @@ void BP1_Interrupt(){
     flag2=false; // On est plus en attente de l'activation du capteur
     lastTime=millis(); // Sauvegarde du temps
   }
-  else if(!flag1&&(millis()>(lastTime+latency))){ 
+  else if(!flag1&&(millis()>(lastTime+latency))){
     flag1=true; // En attente de l'activation du second capteur, le premier reste en attente
     lastTime=millis(); // Sauvegarde du temps
   }
@@ -94,4 +94,3 @@ void BP2_Interrupt(){
   }
 
 };
-
