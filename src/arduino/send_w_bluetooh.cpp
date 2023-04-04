@@ -19,6 +19,6 @@ void setup() {
 
 void loop() {
     // Envoie le nombre de personnes en Bluetooth
-    bluetooth.print(personnes);
+    bluetooth.print(42);
     delay(1000);
 }

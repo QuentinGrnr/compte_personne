@@ -12,7 +12,7 @@ btSerial.connect(address, 1, function() {
 
   // Récupère la valeur envoyée par l'Arduino
   btSerial.on('data', function(buffer) {
-    const data = buffer.readUInt8(0);
+    const data = buffer.readUInt16(0);
     console.log('Received data: ' + data);
   });
 }, function() {
