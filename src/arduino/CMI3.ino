@@ -4,6 +4,8 @@
 // Déclaration des pins utilisés 
 const byte BP1=2;
 const byte BP2=3;
+const byte Flag1=4;
+const byte Flag2=8;
 const byte Led1=7; ////////////////////////////////////////////////////////////////////////////
 const byte Led2=6; ////////////////////////////////////////////////////////////////////////////
 
@@ -30,6 +32,8 @@ void waitForMatrixReady() {
 void setup() {
   Serial.begin(9600);
 // Déclaration des modes des pins
+  pinMode(Flag1, OUTPUT); ////////////////////////////////////////////////////////////////////////////
+  pinMode(Flag2, OUTPUT); ////////////////////////////////////////////////////////////////////////////
   pinMode(Led1, OUTPUT); ////////////////////////////////////////////////////////////////////////////
   pinMode(Led2, OUTPUT); ////////////////////////////////////////////////////////////////////////////
   pinMode(BP1, INPUT);
@@ -55,28 +59,20 @@ void setup() {
 // On considère qu'au démarrage, personne n'est dans la pièce
   //compteur=0;
 
-
-
-
-  //matrix.changeDeviceBaseAddress(0x66); // modification de l'adresse d'un des deux écrans
 }
 
 void loop() {
-// Temporaire
-  digitalWrite(Led1, 1); // LED1 représente le status de BP1 ////////////////////////////////////////////////////////////////////////////
-  digitalWrite(Led2, 1); // LED2 représente le status de BP2 ////////////////////////////////////////////////////////////////////////////
 
-// Partie définitive
+// Affichage sur l'écran
   if((lastScreenUpdate+screenLatency)<millis()){
-    ecran1.displayNumber(compteur/10, screenLatency+1, false, DISPLAY_COLOR); // On affiche la nouvelle valeur
-    ecran2.displayNumber(compteur%10, screenLatency+1, false, DISPLAY_COLOR); // On affiche la nouvelle valeur
+    ecran1.displayNumber(compteur/10, screenLatency, true, DISPLAY_COLOR); // On affiche la nouvelle valeur
+    ecran2.displayNumber(compteur%10, screenLatency, true, DISPLAY_COLOR); // On affiche la nouvelle valeur
     lastScreenUpdate = millis(); // On sauvegarde le temps
-    // Serial.println(compteur)
+    Serial.println(compteur);
   }
 }
 
 void BP1_Interrupt(){
-
   if(flag2){
     compteur--; // La personne est bien sortie
     flag2=false; // On est plus en attente de l'activation du capteur
@@ -90,7 +86,6 @@ void BP1_Interrupt(){
 };
 
 void BP2_Interrupt(){
-
   if(flag1){
     compteur++;
     flag1=false;
