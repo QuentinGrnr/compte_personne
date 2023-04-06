@@ -48,23 +48,11 @@ void setup() {
   }
   Serial.println("Matrix init success!!!");
 
-// On considère qu'au démarrage, personne n'est dans la pièce
-  //compteur=0;
-
-
-
-
-  //matrix.changeDeviceBaseAddress(0x66); // modification de l'adresse d'un des deux écrans
 }
 
 void loop() {
-// Temporaire
-  digitalWrite(Led1, digitalRead(BP1)); // LED1 représente le status de BP1 ////////////////////////////////////////////////////////////////////////////
-  digitalWrite(Led2, digitalRead(BP2)); // LED2 représente le status de BP2 ////////////////////////////////////////////////////////////////////////////
-  digitalWrite(Flag1, flag1); // LED1 représente le status de Flag1 ////////////////////////////////////////////////////////////////////////////
-  digitalWrite(Flag2, flag2); // LED2 représente le status de Flag2 ////////////////////////////////////////////////////////////////////////////
 
-// Partie définitive
+// Affichage sur les matrices LED
   if((lastScreenUpdate+screenLatency)<millis()){
     ecran1.displayNumber(compteur/10, screenLatency, true, DISPLAY_COLOR); // On affiche la nouvelle valeur
     ecran2.displayNumber(compteur%10, screenLatency, true, DISPLAY_COLOR); // On affiche la nouvelle valeur
