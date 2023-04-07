@@ -12,9 +12,9 @@ int personnes = 42;
 
 void setup() {
     // Initialise la communication série à 9600 bauds
-    Serial.begin(9600);
+    Serial.begin(38400);
     // Initialise la communication Bluetooth à 9600 bauds
-    bluetooth.begin(9600);
+    bluetooth.begin(38400);
 }
 
 void loop() {
@@ -22,3 +22,4 @@ void loop() {
     bluetooth.print(42);
     delay(1000);
 }
+
