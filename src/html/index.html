@@ -4,11 +4,22 @@
     <title>Compte_personnes_stat_graph</title>
     <meta http-equiv="refresh" content="500">
     <link rel="stylesheet" type="text/css" href="../css/Index.css" media="screen">
+    <link rel = "stylesheet" href = "https://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-cyan.css">
   </head>
   <body>
-    <div style="width: 70%;"><canvas id="hours_affluence" aria-label="chart" role="img"></canvas></div>
+  <header class="w3-center">
+    <h1 class="title">How many people in my university ?</h1>
+  </header>
+  <ul>
+    <li class="graph_choice" data-graph-id="hours_affluence">graph 1</li>
+    <li class="graph_choice" data-graph-id="graph2">graph 2</li>
+  </ul>
+  <main>
+    <div><canvas class="graph" id="hours_affluence" aria-label="chart" role="img" style="display:block;"></canvas></div>
+  </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
-    <script src="affluence_graph.js">
-    </script>
+    <script src="eachHours.js"></script>
+    <script src="../js/index.js"></script>
   </body>
 </html>

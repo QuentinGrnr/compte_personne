@@ -1,3 +1,38 @@
-body{
-    background: #383838;
+html {
+    background-image: linear-gradient(
+            -45deg,
+            rgb(34, 112, 148) 0%,
+            rgba(87,111,230,1) 25%,
+            rgb(42, 68, 192) 51%,
+            rgb(1, 14, 70) 100%
+    );
+    animation: AnimateBG 20s ease infinite;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+#hours_affluence{
+    height:50%;
+    margin: 15px 100px;
+}
+
+footer{
+    justify-content: center;
+}
+
+.title{
+    color: white;
+    font-size: 70px;
+}
+
+.graph_choice{
+    display: inline-block;
+    color: white;
+    padding: 10px 0 10px 15px;
+    font-size: 20px;
+}
+.graph_choice:hover{
+    color: #806db9;
 }

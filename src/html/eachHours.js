@@ -14,7 +14,7 @@ async function get_Data() {
       result.push({
         label: salle[i].salle,
         data: await data.stats.map(row => row.nbr_personnes),
-        backgroundColor : salle[i].couleur,
+        borderColor :'rgb(255,255,255)',
         tension: 0.1,
       })
     }
@@ -41,7 +41,7 @@ async function build_chart_player_online(){
   const data = await get_Data()
   const players = await document.getElementById("hours_affluence");
   const nbr_personne_Chart = await new Chart(players,{
-    type:"bar",
+    type:"line",
     options: {
       elements: {
         point:{
@@ -59,16 +59,16 @@ async function build_chart_player_online(){
       },
       scales: {
         y: {
-          ticks: { color: 'rgb(184,184,189)'},
+          ticks: { color: 'rgb(255,255,255)'},
           beginAtZero: true,
           grid : {
-            color : 'rgb(63,63,65)'
+            color : 'rgb(187,187,187)'
           }
         },
         x: {
-          ticks: { color: 'rgb(184,184,189)'},
+          ticks: { color: 'rgb(255,255,255)'},
           grid : {
-            color : 'rgb(52,52,54)',
+            color : 'rgb(199,199,199)',
 
           }
         }
