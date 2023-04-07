@@ -31,8 +31,7 @@ async function add_salle_api(salle,adrs_mac, couleur){
   })
 }
 
-add_salle_api("C0_21","uibfsubf","#4349E2")// on ajoute la salle C0-21
-add_salle_api("C0_28","buiubesdf","#3ac071")// on ajoute la salle C0-28
+add_salle_api("C0_21","20:13:08:28:12:42","#4349E2")// on ajoute la salle C0-21
 
 async function getdata_salle(){ // fonction qui récupère les données des salles
   let minute = new Date().getMinutes();// on récupère les minutes so edited
@@ -58,33 +57,36 @@ if (minute % 1 === 0) {// si les minutes sont un multiple de 5 alors on effectue
 
 
 async function add_nbr_data(salle, adrs_mac, couleur) { // fonction qui récupère les données de la salle en bluetooth
-  const testnbrperson = Math.floor(Math.random() * 31);
-  db.run('INSERT INTO ' + salle + '_nbr_personnes(hour,nbr_personnes) VALUES(?,?)', [getDateFormatted(), testnbrperson]); // on ajoute les données dans la table de la salle (si cela ne marche pas, rajouter un await devant getDateFormatted())
-  db.all('SELECT * FROM ' + salle + '_nbr_personnes', (err, data) => { // on récupère les données de la table de la salle
-    console.log(data) //et on les affiche
-    if (err)
-      throw err
-  })
-  /*const address = '20:13:08:28:12:42'; // AT+ADDR? => 2013:8:281242 => adresse mac du module bluetooth du compte personne
-  // UUID du service Bluetooth
-  const uuid = '0000ffe0-0000-1000-8000-00805f9b34fb'; //celon chat gpt => uuid du module bluetooth du compte personne (a vérif)
-  btSerial.connect(address, 1, function () { // on se connecte au module bluetooth du compte personne
-    console.log('connection a l\'arduino bluetooth de la salle ' + salle + " ( avec l'adresse mac " + adrs_mac + " ) établie");
+                                                        // Adresse MAC de l'Arduino Bluetooth
+  const address = '20:13:08:28:12:42'; // AT+ADDR? => 2013:8:281242
 
-    btSerial.on('data', function (buffer) { // on récupère les données envoyées par le module bluetooth de l'arduino
-      const nbr_personnes = 10//buffer.readUInt8(0); //nbr_personnes est le nombre de personnes dans la salle envoyé par le module bluetooth de l'arduino
-      db.run('INSERT INTO ' + salle + '_nbr_personnes(hour,nbr_personnes) VALUES(?,?)', ["25", 10]); // on ajoute les données dans la table de la salle (si cela ne marche pas, rajouter un await devant getDateFormatted())
-      db.all('SELECT * FROM ' + salle + '_nbr_personnes', (err, data) => { // on récupère les données de la table de la salle
-        console.log(data) //et on les affiche
-        if (err)
-          throw err
-      })
-      btSerial.close(); // on ferme la connection
+// UUID du service Bluetooth
+  const uuid = '00000000-0000-1000-8000-00805f9b34fb'; //celon chat gpt
+
+// Connecte à l'Arduino Bluetooth
+  btSerial.connect(address, 1, async function() {
+    let i = 0;
+    console.log('Connected to Arduino Bluetooth.');
+    // Récupère la valeur envoyée par l'Arduino
+    btSerial.on('data', function(buffer) { ////// Voir pourquoi cette fopnction s'execute plusieurs fois
+      // Ferme la connexion Bluetooth
+      btSerial.close();
+      let bldata = parseInt(buffer,10); // Convertit le buffer en chaîne de caractères
+      if (bldata < 100 && i == 1) {
+        db.run('INSERT INTO ' + salle + '_nbr_personnes(hour,nbr_personnes) VALUES(?,?)', [getDateFormatted(), bldata]); // on ajoute les données dans la table de la salle (si cela ne marche pas, rajouter un await devant getDateFormatted())
+        db.all('SELECT * FROM ' + salle + '_nbr_personnes', (err, data) => { // on récupère les données de la table de la salle
+          console.log(data) //et on les affiche
+          if (err)
+            throw err;
+        })
+      }
+      i++;
     });
-  }, function () {
-    console.log('connection impossible a l\'arduino bluetooth de la salle ' + salle + " ( avec l'adresse mac " + adrs_mac + " )"); // si la connection n'est pas établie on affiche un message
-    return 0
-  });*/
+  }, function() {
+    console.log('Failed to connect to Arduino Bluetooth.');
+    // Ferme la connexion Bluetooth
+    btSerial.close();
+  });
 }
 
 function getDateFormatted() {
