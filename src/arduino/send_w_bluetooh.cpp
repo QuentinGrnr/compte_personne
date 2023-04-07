@@ -1,14 +1,14 @@
 #include <SoftwareSerial.h>
 
 // Pin utilisée pour la communication Bluetooth
-#define RX_PIN 2
-#define TX_PIN 3
+#define RX_PIN 4
+#define TX_PIN 5
 
 // Initialise le port série Bluetooth
 SoftwareSerial bluetooth(RX_PIN, TX_PIN);
 
 // variable contenant le nombre de personnes
-int personnes = 42;
+byte personnes = 10;
 
 void setup() {
     // Initialise la communication série à 9600 bauds
@@ -19,7 +19,7 @@ void setup() {
 
 void loop() {
     // Envoie le nombre de personnes en Bluetooth
-    bluetooth.print(42);
-    delay(1000);
+    bluetooth.print(personnes);
+    delay(10000);
 }
 
