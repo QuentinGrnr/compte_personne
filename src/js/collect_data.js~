@@ -7,18 +7,21 @@ const address = '20:13:08:28:12:42'; // AT+ADDR? => 2013:8:281242
 const uuid = '00000000-0000-1000-8000-00805f9b34fb'; //celon chat gpt
 
 // Connecte à l'Arduino Bluetooth
-btSerial.connect(address, 1, function() {
+btSerial.connect(address, 1, async function() {
   console.log('Connected to Arduino Bluetooth.');
 
   // Récupère la valeur envoyée par l'Arduino
-  btSerial.on('data', function(buffer) {
-    const data = parseInt(buffer.toString()); // Convertit le buffer en chaîne de caractères
+  btSerial.on('data', async function(buffer) {
+    const data = await parseInt(buffer,10); // Convertit le buffer en chaîne de caractères
+    // Ferme la connexion Bluetooth
+    btSerial.close();
     console.log('Received data: ' + data); // Affiche la valeur reçue
+
   });
 }, function() {
   console.log('Failed to connect to Arduino Bluetooth.');
+  // Ferme la connexion Bluetooth
+  btSerial.close();
 });
 
-// Ferme la connexion Bluetooth
-btSerial.close();
 

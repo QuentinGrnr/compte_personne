@@ -12,13 +12,16 @@ btSerial.connect(address, 1, async function() {
 
   // Récupère la valeur envoyée par l'Arduino
   btSerial.on('data', async function(buffer) {
-    const data = await parseInt(buffer.toString()); // Convertit le buffer en chaîne de caractères
+    // Ferme la connexion Bluetooth
+    btSerial.close();
+    const data = await parseInt(buffer,10); // Convertit le buffer en chaîne de caractères
     console.log('Received data: ' + data); // Affiche la valeur reçue
+
   });
 }, function() {
   console.log('Failed to connect to Arduino Bluetooth.');
+  // Ferme la connexion Bluetooth
+  btSerial.close();
 });
 
-// Ferme la connexion Bluetooth
-btSerial.close();
 
