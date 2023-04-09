@@ -13,4 +13,3 @@ graphChoices.forEach(choice => {
         });
     });
 });
-

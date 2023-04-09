@@ -10,7 +10,7 @@ let db = new sqlite3.Database('nbr_personnes.sqlite', err => {
   })
 
 async function add_salle_api(salle,adrs_mac, couleur){
-  db.run('CREATE TABLE IF NOT EXISTS salle_api(id INTEGER PRIMARY KEY AUTOINCREMENT,salle VARCHAR, adrs_mac VARCHAR, couleur VARCHAR)') // on crée la table si elle n'existe pas
+  db.run('CREATE TABLE IF NOT EXISTS salle_api(id INTEGER PRIMARY KEY AUTOINCREMENT,salle VARCHAR, adrs_mac VARCHAR, couleur VARCHAR, capacite INTEGER)') // on crée la table si elle n'existe pas
   db.all('SELECT * FROM salle_api', async (err, data) => { // on récupère les données de la table
     validator = 0
     for (let i = 0; i < data.length; i++) { //on compare les données de la table avec la salle que l'on veut ajouter
@@ -20,7 +20,7 @@ async function add_salle_api(salle,adrs_mac, couleur){
       }
     }
     if(validator==0){ //si le validateur est à 0 on ajoute la salle
-      db.run('INSERT INTO salle_api(salle,adrs_mac,couleur) VALUES(?,?,?)', [salle,adrs_mac,couleur]); // on ajoute la salle dans la table
+      db.run('INSERT INTO salle_api(salle,adrs_mac,couleur,capacite) VALUES(?,?,?,?)', [salle,adrs_mac,couleur,capacite]); // on ajoute la salle dans la table
       db.run('CREATE TABLE ' + salle + '_nbr_personnes(id INTEGER PRIMARY KEY AUTOINCREMENT,hour VARCHAR, nbr_personnes INTEGER)') // on crée la table pour les données de la salle
       db.all('SELECT * FROM salle_api', async (err, data) => {
       })
@@ -31,7 +31,7 @@ async function add_salle_api(salle,adrs_mac, couleur){
   })
 }
 
-add_salle_api("C0_21","20:13:08:28:12:42","#4349E2")// on ajoute la salle C0-21
+add_salle_api("C0_21","20:13:08:28:12:42","#4349E2", 30)// on ajoute la salle C0-21
 
 async function getdata_salle(){ // fonction qui récupère les données des salles
   let minute = new Date().getMinutes();// on récupère les minutes so edited
@@ -81,7 +81,6 @@ async function add_nbr_data(salle, adrs_mac, couleur) { // fonction qui récupè
         })
       }
       i++;
-      console.log(i)
     });
   }, function() {
     console.log('Failed to connect to Arduino Bluetooth.');
