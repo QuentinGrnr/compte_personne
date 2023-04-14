@@ -62,7 +62,6 @@ void loop() {
 }
 
 void BP1_Interrupt(){
-  Serial.println("/////////////////////////////////////");
   if(flag2){
     compteur--; // La personne est bien sortie
     flag2=false; // On est plus en attente de l'activation du capteur
