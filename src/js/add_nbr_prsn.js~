@@ -9,7 +9,7 @@ let db = new sqlite3.Database('nbr_personnes.sqlite', err => {
     console.log('data base "nbr_personnes.sqlite" bien active')
   })
 
-async function add_salle_api(salle,adrs_mac, couleur){
+async function add_salle_api(salle,adrs_mac, couleur, capacite){
   db.run('CREATE TABLE IF NOT EXISTS salle_api(id INTEGER PRIMARY KEY AUTOINCREMENT,salle VARCHAR, adrs_mac VARCHAR, couleur VARCHAR, capacite INTEGER)') // on crée la table si elle n'existe pas
   db.all('SELECT * FROM salle_api', async (err, data) => { // on récupère les données de la table
     validator = 0

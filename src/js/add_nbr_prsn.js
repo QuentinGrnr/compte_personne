@@ -61,7 +61,7 @@ async function add_nbr_data(salle, adrs_mac, couleur) { // fonction qui récupè
   const address = '20:13:08:28:12:42'; // AT+ADDR? => 2013:8:281242
 
 // UUID du service Bluetooth
-  const uuid = '00000000-0000-1000-8000-00805f9b34fb'; //celon chat gpt
+  const uuid = '00000000-0000-1000-8000-00805f9b34fb'; //selon chat gpt
 
 // Connecte à l'Arduino Bluetooth
   btSerial.connect(address, 1, async function() {
