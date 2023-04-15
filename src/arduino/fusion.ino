@@ -1,9 +1,6 @@
 #include <SoftwareSerial.h>
 #include "grove_two_rgb_led_matrix.h"
 
-
-
-
 #define FLAG1 7
 #define FLAG2 8
 
@@ -97,7 +94,6 @@ void loop() {
     bluetooth.print(compteur);
     Serial.println("Transmit BT");
     lastBlueetoothSend=lastMillis;
-    // delay(10000);
   }
 
 

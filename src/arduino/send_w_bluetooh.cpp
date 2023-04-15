@@ -13,7 +13,7 @@ byte personnes = 10;
 void setup() {
     // Initialise la communication série à 9600 bauds
     Serial.begin(38400);
-    // Initialise la communication Bluetooth à 9600 bauds
+    // Initialise la communication Bluetooth à 38400 bauds
     bluetooth.begin(38400);
 }
 
