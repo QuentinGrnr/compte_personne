@@ -27,27 +27,22 @@ footer{
     font-size: 70px;
 }
 
-.graph_choice{
-    display: inline-block;
+.capacite{
     color: white;
-    padding: 10px 0 10px 15px;
-    font-size: 20px;
-}
-.graph_choice:hover{
-    color: #806db9;
+    margin: 0 0 20px 20px;
+    font-size: 30px;
+
 }
 
-.progress-bar {
-    width: 0%;
-    height: 10px;
-    margin: 20px 40px;
-    background-color: green;
-    transition: width 0.3s ease-in-out;
+.subcapadiv{
+    width: 100%;
+    display : grid;
+    grid-template-columns: 20% 80%;
 }
 
-.capabar{
-    border: solid white 1px;
-    width: 90%;
-    height: 10px;
-    margin: 20px 40px;
+.progressBar{
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    margin: 10px 10px 10px 0;
 }

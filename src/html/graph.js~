@@ -69,7 +69,6 @@ async function build_chart(){
           ticks: { color: 'rgb(255,255,255)'},
           grid : {
             color : 'rgb(199,199,199)',
-
           }
         }
       },
@@ -82,4 +81,39 @@ async function build_chart(){
     }
   })
 }
+
+async function printcapacite(){
+  const response = await fetch( // on récupère les salles en utilisant l'api
+    `http://localhost:500/apiv1/salle`
+  );
+  responses = await response.json()
+  salle = responses.salle
+  for (let i = 0; i < salle.length; i++) { // on parcourt les salles
+    name = salle[i].salle;
+    capa = salle[i].capacite;
+    let data = await fetch(
+      `http://localhost:500/apiv1/nbrPersonne/` + salle[i].salle // on récupère les données de la salle
+    );
+    salleinfo = await data.json();
+    let lastStat = salleinfo.stats.pop(); // extrait le dernier élément de la propriété "stats"
+    let lastNbrPersonnes = lastStat.nbr_personnes; // accède à la propriété "nbr_personnes" de l'élément extrait
+    const capaciteDiv = document.getElementById("capa"); //
+    const pElement = document.createElement("p");
+    pElement.innerText = name + " : " + lastNbrPersonnes + "/" + capa  ;
+    pElement.className = "capacite";
+    const progressBar = document.createElement("div"); // créer une div pour la barre de progression
+    progressBar.className = "progressBar";
+    if (lastNbrPersonnes >= capa) { // si la salle est pleine
+      progressBar.style.width = "100%"; // remplir la barre
+    } else {
+      progressBar.style.width = (lastNbrPersonnes / capa) * 90 + "%"; // remplir la barre proportionnellement au nombre de personnes présentes
+    }
+    const subcapadiv = document.createElement("div");
+    subcapadiv.className = "subcapadiv";
+    capaciteDiv.appendChild(subcapadiv); // ajouter la div parent à la div "capa"
+    subcapadiv.appendChild(pElement); // ajouter la barre de progression à la div parent
+    subcapadiv.appendChild(progressBar); // ajouter la barre de progression à la div parent
+  }
+}
+printcapacite()
 build_chart()

@@ -20,5 +20,3 @@ btSerial.connect(address, 1, async function() {
   // Ferme la connexion Bluetooth
   btSerial.close();
 });
-
-

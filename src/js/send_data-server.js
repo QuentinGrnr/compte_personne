@@ -21,6 +21,7 @@ async function set_api(){
             res.json({ // on renvoie les données
               salle: req.params.salle, // on renvoie le nom de la salle
               adrs_mac: data[i].adrs_mac, //  on renvoie l'adresse mac du module bluetooth
+              capacite : data[i].capacite, // on renvoie la capacité de la salle
               stats: data_ // on renvoie les données de la salle
             })
           })
