@@ -26,7 +26,7 @@ volatile byte compteur = 0; // Variable du contenant le nombre de personnes
 volatile unsigned long lastScreenUpdate = 0; // gestion de la latence de l'affichage
 const int screenLatency=1000; // Latence sur les boutons
 const byte DISPLAY_COLOR= COLORS::green; // Couleur sur la matrice RGB
-GroveTwoRGBLedMatrixClass screen1(GROVE_TWO_RGB_LED_MATRIX_DEF_I2C_ADDR, 1), screen2(GROVE_TWO_RGB_LED_MATRIX_DEF_I2C_ADDR+1, 1); // Déclaration de l'objet qui permet d'interagir avec les matrices
+GroveTwoRGBLedMatrixClass screen1(GROVE_TWO_RGB_LED_MATRIX_DEF_I2C_ADDR, 1), screen2(GROVE_TWO_RGB_LED_MATRIX_DEF_I2C_ADDR+1, 1); // Déclaration des objets qui permettent d'interagir avec les matrices
 
 
 
@@ -75,15 +75,13 @@ void loop() {
   if((lastScreenUpdate+screenLatency)<lastMillis){
     screen1.displayNumber(compteur/10, screenLatency, true, DISPLAY_COLOR); // On affiche l'unité du compteur (propriété de la division des int)
     screen2.displayNumber(compteur%10, screenLatency, true, DISPLAY_COLOR); // On affiche la nouvelle valeur
-    lastScreenUpdate = millis(); // On sauvegarde le temps
-    Serial.println(compteur);
+    lastScreenUpdate = lastMillis; // On sauvegarde le temps
+    Serial.println(compteur); // On affiche le compteur dans la console série
   }
 
 // Envoie le nombre de personnes en Bluetooth
   if((lastBlueetoothSend+BLUETOOTH_LATENCY)<lastMillis){
-    Serial.println("Transmission BT");    
     bluetooth.print(compteur);
-    Serial.println("Transmit BT");
     lastBlueetoothSend=lastMillis;
     // delay(10000);
   }
