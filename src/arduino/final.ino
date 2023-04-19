@@ -3,6 +3,8 @@
 
 
 
+#define LED1 7
+#define LED2 8
 // Déclaration des pins utilisés par les capteurs
 const byte CAPT1=2;
 const byte CAPT2=3;
@@ -47,8 +49,8 @@ void setup() {
 // Déclaration des modes des pins
   pinMode(CAPT1, INPUT);
   pinMode(CAPT2, INPUT);
-  pinMode(FLAG1, INPUT);
-  pinMode(FLAG2, INPUT);
+  pinMode(LED1, INPUT);
+  pinMode(LED2, INPUT);
 // Affectation des interruptions aux pins
   attachInterrupt(digitalPinToInterrupt(CAPT1),Capt1_Interrupt,RISING);
   attachInterrupt(digitalPinToInterrupt(CAPT2),Capt2_Interrupt,RISING);
@@ -86,6 +88,8 @@ void loop() {
     // delay(10000);
   }
 
+  digitalWrite(LED1, digitalRead(CAPT1));
+  digitalWrite(LED2, digitalRead(CAPT2));
 }
 
 
@@ -107,7 +111,7 @@ void Capt1_Interrupt(){
 void Capt2_Interrupt(){
   if(flag1){
     if(compteur!=255){ // On ne peut pas dépasser 255 avec le type byte
-      compteur--; // La personne est bien sortie
+      compteur++; // La personne est bien entrée
     }
     flag1=false;
     captLastTrigger=millis();
