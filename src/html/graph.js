@@ -14,7 +14,7 @@ async function get_Data() {
       result.push({ // on ajoute les données de la salle dans le tableau
         label: salle[i].salle, // on ajoute le nom de la salle
         data: await data.stats.map(row => row.nbr_personnes), // on ajoute les données de la salle
-        borderColor :'rgb(255,255,255)', // on ajoute la couleur de la courbe
+        borderColor : await salle[i].couleur, // on ajoute la couleur de la courbe
         tension: 0.1, // on ajoute la tension de la courbe
       })
     }
@@ -103,10 +103,15 @@ async function printcapacite(){
     pElement.className = "capacite";
     const progressBar = document.createElement("div"); // créer une div pour la barre de progression
     progressBar.className = "progressBar";
-    if (lastNbrPersonnes >= capa) { // si la salle est pleine
-      progressBar.style.width = "100%"; // remplir la barre
-    } else {
-      progressBar.style.width = (lastNbrPersonnes / capa) * 100 + "%"; // remplir la barre proportionnellement au nombre de personnes présentes
+    if (lastNbrPersonnes == capa) { // si la salle est pleine
+      progressBar.style.width = (lastNbrPersonnes / capa) * 90 + "%"; // remplir la barre
+      progressBar.backgroundColor = "rgb(255,255,255)";
+    } else if (lastNbrPersonnes < capa) { //
+      progressBar.style.width = (lastNbrPersonnes / capa) * 90 + "%"; // remplir la barre proportionnellement au nombre de personnes présentes
+      progressBar.backgroundColor = "rgb(255,255,255)";
+    } else if (lastNbrPersonnes > capa) {
+      progressBar.style.backgroundColor = "rgb(255,0,0)";
+      progressBar.style.width = "90%";
     }
     const subcapadiv = document.createElement("div");
     subcapadiv.className = "subcapadiv";

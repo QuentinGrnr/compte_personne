@@ -31,7 +31,7 @@ async function add_salle_api(salle,adrs_mac, couleur, capacite){
   })
 }
 
-add_salle_api("C0_21","20:13:08:28:12:42","#4349E2", 30)// on ajoute la salle C0-21
+add_salle_api("C0_21","20:13:08:28:12:42","#ffffff", 30)// on ajoute la salle C0-21
 
 async function getdata_salle(){ // fonction qui récupère les données des salles
   let minute = new Date().getMinutes();// on récupère les minutes so edited
