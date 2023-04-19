@@ -91,7 +91,9 @@ void loop() {
 
 void Capt1_Interrupt(){
   if(flag2){ // Le capteur côté intérieur de la pièce a été déclenché plus tôt
-    compteur--; // La personne est bien sortie
+    if(compteur==0){ // On ne peut pas retirer une personne d'une pièce vide
+      compteur--; // La personne est bien sortie
+    }
     flag2=false; // On est plus en attente de l'activation du capteur
     captLastTrigger=millis(); // Sauvegarde du temps
   }
@@ -104,7 +106,9 @@ void Capt1_Interrupt(){
 
 void Capt2_Interrupt(){
   if(flag1){
-    compteur++;
+    if(compteur==255){ // On ne peut pas dépasser 255 avec le type byte
+      compteur--; // La personne est bien sortie
+    }
     flag1=false;
     captLastTrigger=millis();
   }
