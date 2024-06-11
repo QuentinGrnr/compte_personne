@@ -1,12 +1,15 @@
 # Person counting system
 ![compte_personne](https://github.com/ClueXIII/compte_personne/assets/109299545/816a947b-2781-408a-ac97-d2e729a99721)
-## Comment compter les personnes qui accèdent à une pièce, afin de l'afficher aux personnes dans la pièce, mais aussi pour tenir des statistiques sur un plus long terme ?
+## How do you count the number of people accessing a room, in order to display it to the people in the room, but also to keep statistics over the longer term?
 
-Pour cela le projet a été décomposé en deux axes majeurs :
-- L'affichage en temps réel pour les personnes présentes
-- La sauvegarde du compteur à intervalle régulier pour faire des statistiques à plus long terme
+University project as part of the Cursus Master Ingénieurie 3 teaching unit
 
-Les deux parties font appel à un socle commun : la lecture des capteurs et l'interprétation de leurs activations.
+To do this, the project was broken down into two major areas:
+- Real-time display for people in the room
+- Saving the counter at regular intervals for longer-term statistics.
+longer term
+Both parts are based on a common foundation: the reading of sensors and the interpretation
+of their activation.
 
 Collaborative work between [@ClueCIII](https://github.com/ClueXIII) and [@ColinLeDev](https://github.com/ColinLeDev)
 
